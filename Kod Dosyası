@@ -1,0 +1,283 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define True 1
+#define False 0
+
+struct ogrenci {
+	char isim[100];
+	char soyisim[100];
+	char bolum[50];
+	int ogr_no;
+	struct {
+	    char mail[50];
+	    int telefon;
+	} iletisim_bilgileri;
+	char ders[50];
+	int vize;
+	int final;
+	int durum;
+}kayitli_ogr[60];
+
+
+
+int int_deger (char *ileti)
+{
+	int N;
+	printf("%s",ileti);
+	scanf("%d",&N);
+	return N;
+}
+
+void char_deger (char *ileti, char *s)
+{
+	char gecici[100];
+    printf("%s",ileti);
+    scanf("%s",gecici);
+    strcpy(s, gecici);
+}
+
+void bilgi2(int i)
+{
+    char_deger("\nISIM: ", kayitli_ogr[i].isim);
+    char_deger("SOYISIM : ", kayitli_ogr[i].soyisim);
+    char_deger("BOLUM : ",kayitli_ogr[i].bolum);
+    kayitli_ogr[i].ogr_no = int_deger("OGRENCI NUMARASI : ");
+    char_deger("MAIL ADRESI : ",kayitli_ogr[i].iletisim_bilgileri.mail);
+    kayitli_ogr[i].iletisim_bilgileri.telefon = int_deger("TELEFON NUMARASI : ");
+    char_deger("DERS : ",kayitli_ogr[i].ders);
+    kayitli_ogr[i].vize = int_deger("VIZE : ");
+    kayitli_ogr[i].final = int_deger("FINAL : ");
+    kayitli_ogr[i].durum = False;
+     if(kayitli_ogr[i].durum == False)
+        printf("%s\t%s\t%s\t%d\t%s\t%d\t%s\t%d\t%d\n", 
+	    kayitli_ogr[i].isim, 
+	    kayitli_ogr[i].soyisim, 
+        kayitli_ogr[i].bolum, 
+    	kayitli_ogr[i].ogr_no, 
+	    kayitli_ogr[i].iletisim_bilgileri.mail,
+	    kayitli_ogr[i].iletisim_bilgileri.telefon,
+	    kayitli_ogr[i].ders, 
+    	kayitli_ogr[i].vize, 
+	    kayitli_ogr[i].final);
+}
+
+void ogr_ekle(void)
+{
+    int i,ogrenci_sayisi;
+    printf("Eklemek istediginiz ogrenci sayisini girin : "); scanf("%d",&ogrenci_sayisi);
+    for (i = 0; i < ogrenci_sayisi; i++)
+        bilgi2(i);
+    }
+    
+void ogr_sil()
+{
+    int i, numara = int_deger("Silmek istediginiz ogrencinin numarasini girin : ");
+    for (i = 0; kayitli_ogr[i].ogr_no != '\0'; i++) {
+        if (numara == kayitli_ogr[i].ogr_no && kayitli_ogr[i].durum == False) {
+            kayitli_ogr[i].durum = True;
+            printf("\n%d numarali ogrenci kaydi silindi\n", kayitli_ogr[i].ogr_no);
+        return;
+                }
+        }
+        printf("\nBoyle bir ogrenci kaydi bulunamadi.\n\n");
+}
+
+void ogr_bul()
+{
+    int i, numara = int_deger("Bulmak istediginiz ogrencinin numarasini girin : ");
+    for (i = 0; kayitli_ogr[i].ogr_no != '\0'; i++) {
+        if (numara == kayitli_ogr[i].ogr_no && kayitli_ogr[i].durum == False) {
+        printf("\nISIM : %s\nsSOYISIM : %s\nBOLUMU : %s\nOGRENCI NUMARASI : %d\nMAIL ADRESI: %s\nTELEFON NUMARASI : %d\nDERS : %s\nVIZE : %d\nFINAL : %d\n\n", 
+					kayitli_ogr[i].isim, 
+		            kayitli_ogr[i].soyisim, 
+					kayitli_ogr[i].bolum, 
+					kayitli_ogr[i].ogr_no, 
+					kayitli_ogr[i].iletisim_bilgileri.mail,
+				    kayitli_ogr[i].iletisim_bilgileri.telefon,
+					kayitli_ogr[i].ders, 
+					kayitli_ogr[i].vize, 
+				    kayitli_ogr[i].final);
+                        return;
+                }
+        }
+        puts("\nBoyle bir ogrenci kaydi bulunamadi\n\n");
+}
+
+void topkay(void)
+{
+    int i, kayit = 0;
+    for (i = 0; kayitli_ogr[i].ogr_no != '\0'; i++)
+        if (kayitli_ogr[i].durum == False)
+                        kayit++;
+        printf("\nSistemde kayitli toplam %d adet ogrenci var.\n\n",kayit);
+}
+
+void ort(void)
+{
+    int i, top = 0;
+    float ortalama;
+    for (i = 0; kayitli_ogr[i].ogr_no != '\0'; i++)
+        if (kayitli_ogr[i].durum == False)
+            top +=  (0.4*kayitli_ogr[i].vize) + (0.6*kayitli_ogr[i].final);
+            ortalama = top / i;
+    printf("\nSistemde kayitli ogrencilerin not ortalamasi : %.2f 'dir\n\n", ortalama);
+}
+
+void harf_notu(void)
+{
+	int i, top ;
+    float ortalama;
+    for (i = 0; kayitli_ogr[i].ogr_no != '\0'; i++){
+    top =  (0.4*kayitli_ogr[i].vize) + (0.6*kayitli_ogr[i].final);
+    if ( top < 40 )
+        printf("%d NUMARALI OGRENCININ ORTALAMASI: %d\nHARF NOTU: FF\n",kayitli_ogr[i].ogr_no,top);
+        
+    else if ( top < 50 )
+        printf("%d NUMARALI OGRENCININ ORTALAMASI: %d\nHARF NOTU: FD\n",kayitli_ogr[i].ogr_no,top);
+        
+    else if ( top < 55 )
+        printf("%d NUMARALI OGRENCININ ORTALAMASI: %d\nHARF NOTU: DD\n",kayitli_ogr[i].ogr_no,top);
+        
+    else if ( top < 60 )
+        printf("%d NUMARALI OGRENCININ ORTALAMASI: %d\nHARF NOTU: DC\n",kayitli_ogr[i].ogr_no,top);
+        
+    else if ( top < 70 )
+       printf("%d NUMARALI OGRENCININ ORTALAMASI: %d\nHARF NOTU: CC\n",kayitli_ogr[i].ogr_no,top);
+        
+    else if ( top < 75 )
+        printf("%d NUMARALI OGRENCININ ORTALAMASI: %d\nHARF NOTU: CB\n",kayitli_ogr[i].ogr_no,top);
+        
+    else if ( top < 85 )
+        printf("%d NUMARALI OGRENCININ ORTALAMASI: %d\nHARF NOTU: BB\n",kayitli_ogr[i].ogr_no,top);
+        
+    else if ( top < 90 )
+       printf("%d NUMARALI OGRENCININ ORTALAMASI: %d\nHARF NOTU: BA\n",kayitli_ogr[i].ogr_no,top);
+        
+    else 
+        printf("%d NUMARALI OGRENCININ ORTALAMASI: %d\nHARF NOTU: AA\n",kayitli_ogr[i].ogr_no,top);  
+}
+}
+
+void mutlak_deg(void)
+{	
+	int i, top = 0;
+    int gecme_notu;
+    printf("Gecme notu girin:"); scanf("%d",&gecme_notu);
+    for (i = 0; kayitli_ogr[i].ogr_no != '\0'; i++)
+        if (kayitli_ogr[i].durum == False){
+            top +=  (0.4*kayitli_ogr[i].vize) + (0.6*kayitli_ogr[i].final);
+        if(top>gecme_notu){
+            printf("%d NUMARALI OGRENCI DERSTEN GECTI!\n BOLUM:%s\n, DERS:%s\n",kayitli_ogr[i].ogr_no,
+						                                                                  kayitli_ogr[i].bolum,
+																						  kayitli_ogr[i].ders);
+		}
+        else{
+            printf("%d NUMARALI OGRENCI BUTE KALDI!\n BOLUM:%s\n, DERS:%s\n",kayitli_ogr[i].ogr_no,
+						                                                               kayitli_ogr[i].bolum,
+																                       kayitli_ogr[i].ders);
+		}												                       
+        }
+}
+ 
+void can_eg(void)
+{
+    int i, top = 0;
+    float ortalama;
+    for (i = 0; kayitli_ogr[i].ogr_no != '\0'; i++)
+    if (kayitli_ogr[i].durum == False)
+        top +=  (0.4*kayitli_ogr[i].vize) + (0.6*kayitli_ogr[i].final);
+        ortalama = top / i;
+        printf("\nSistemde kayitli ogrencilerin not ortalamasi : %.2f 'dir\n\n", ortalama);
+    for (i = 0; kayitli_ogr[i].ogr_no != '\0'; i++){
+    top =  (0.4*kayitli_ogr[i].vize) + (0.6*kayitli_ogr[i].final);
+    if(top>ortalama)
+        printf("%d NUMARALI OGRENCI DERSTEN GECTI!\n DERSI:%s\nBOLUMU:%s\n",kayitli_ogr[i].ogr_no,
+		                                                                  kayitli_ogr[i].ders,
+																		  kayitli_ogr[i].bolum);
+    else
+        printf("%d NUMARALI OGRENCİ BUTE KALDI!\n DERSI:%s\nBOLUMU:%s\n",kayitli_ogr[i].ogr_no,
+		                                                               kayitli_ogr[i].ders,
+																	   kayitli_ogr[i].bolum);
+    }
+}
+
+
+
+void ogr_ort(void)
+{
+	puts("\t\t<m> - Mutlak degerlendirme\n");
+	puts("\t\t\t\t\t<e> - Can egrisi degerlendirmesi\n");
+    char c;
+    printf("Islem yapmak istediginiz harfi girin : "); scanf("%c", &c);
+    getchar();   
+	printf("GECME KRITERI SECIN:");
+	switch(c) {
+    case 'e': puts("\n-> Can egrisi :"); can_eg();      break;
+    case 'm': puts("\n-> Mutlak degerlendirme :"); mutlak_deg();       break;
+            }
+}
+
+void ISLEMLER(void)
+{
+    puts("<e> - Kayit Eklemek");
+    puts("<b> - Kayit Bulmak");
+    puts("<k> - Kayit Silmek\n");
+    char c;
+    printf("Islem yapmak istediginiz harfi girin : "); scanf("%c", &c);
+    getchar(); 
+    switch(c) {
+        case 'e': puts("\n-> Kayit eklemek icin :\n");  ogr_ekle(); break;
+        case 'b': puts("\n-> Kaydini bulmak icin :\n"); ogr_bul();   break;
+        case 'k': puts("\n-> Kaydını silmek icin :\n"); ogr_sil();   break;
+        default: printf("\nSistemde boyle bir secenek yok.Tekrar secmek icin lutfen 'Enter' a basin.");
+        }
+}
+
+void ISTATISTIK(void)
+{
+    puts("<t> -Toplam Kayit Sayisi\n");
+    puts("<o> -Sinif Not Ortalamasi\n");
+    puts("<p> -Ogrencinin not durumu bilgisi\n");
+    puts("<h> -Ogrencilerin harf notlari\n");
+    char c;
+    printf("Islem yapmak istediginiz harfi girin : "); scanf("%c", &c);
+    getchar();   
+    switch(c) {
+        case 't': puts("\n-> Kayit bilgisi :"); topkay();      break;
+        case 'o': puts("\n-> Ortalama bilgisi :"); ort();       break;
+        case 'p': puts("\n-> Ogrenci not durumu bilgisi:"); ogr_ort();    break;
+        case 'h':puts("\n-> Ogrencilerin harf notlari:"); harf_notu();    break;
+        default: printf("\nSistemde böyle bir secenek bulunamadi.Tekrar secmek için 'Enter' a tiklayin.");
+        }
+}
+
+void ANAMENU(void)
+{
+    char c;
+    do {
+    puts("\n----------> OGRENCI BILGI SISTEMINE HOSGELDINIZ <----------\n");
+    puts("-----> A N A M E N U <-----");
+    puts("<i> - ISLEMLER");
+    puts("<s> - ISTATISTIK");
+    puts("<z> - CIKIS\n");
+    printf("Islem yapmak istediginiz harfi girin : "); scanf("%c", &c);
+    getchar();
+    switch(c) {
+        case 'i': puts("\n---------------> ISLEMLER <---------------\n"); ISLEMLER();             break;
+        case 's': puts("\n---------------> ISTATISTIK <---------------\n"); ISTATISTIK(); break;
+        case 'z': printf("\nCikis yapmak icin 'Enter' a tiklayin."); break;
+        default: printf("\nSistemde böyle bir secenek bulunamadi.Tekrar secmek icin 'Enter'  a tiklayin.");
+                }
+    getchar();
+    } 
+	while (c != 'z');
+
+        printf("\nSistemimizden cikis yaptiniz.Hoscakalin...\n");
+}
+
+int main()
+{
+    ANAMENU();
+    return 0;
+}
